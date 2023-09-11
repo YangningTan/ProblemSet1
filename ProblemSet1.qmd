@@ -1,0 +1,116 @@
+---
+title: "ProblemSet1"
+format: html
+editor: visual
+---
+
+## Problem 1 - Wine Data
+
+a\. Import the data
+
+We first import data into the environment. Click the "import Dataset" button and select the file "wine.data". Then we get the data.frame below.
+
+```{r}
+wine <- read.csv("wine.data", header = FALSE)
+#wine
+```
+
+We can also check the format of it.
+
+```{r}
+class(wine)
+```
+
+Next, we use the information in the "wine.names" file to give column names. We name the first column "class", and the names of following columns are given in the "wine.names" file.
+
+```{r}
+colnames(wine)[1] <- "class"
+colnames(wine)[2:14] <- c("alcohol", "malic acid", "ash",
+                          "Alcalinity of ash", "Magnesium",
+                          "Total phenols", "Flavanoids",
+                          "Nonflavanoid phenols",
+                          "Proanthocyanins", "Color intensity",
+                          "Hue", "OD280/OD315 of diluted wines",
+                          "Proline")
+```
+
+b\. The number of wines within each class
+
+The numbers of wines within the three classes are respectively as follows.
+
+```{r}
+# the number of wines within class 1
+length(which(wine$class == 1))
+# the number of wines within class 2
+length(which(wine$class == 2))
+# the number of wines within class 3
+length(which(wine$class == 3))
+```
+
+c\. Use the data to answer the questions
+
+1.  The wine with the highest alcohol content belongs to which class?
+
+    We first find the index of the wine, then find which class it belongs to.
+
+    ```{r}
+    index1 <- which.max(wine$alcohol)
+    wine$class[index1]
+    ```
+
+    Clearly, it belongs to class 1.
+
+2.  The wine with the lowest alcohol content belongs to which class?
+
+    Similarly, we first find the index, then the class it belongs to.
+
+    ```{r}
+    index2 <- which.min(wine$alcohol)
+    wine$class[index2]
+    ```
+
+    It belongs to class 2.
+
+3.  How many of these wines have higher levels of magnesium than 114 mg/l?
+
+    ```{r}
+    length(which(wine$Magnesium > 114))
+    ```
+
+    There are 26 wines with level of magnesium higher than 114 mg/l.
+
+4.  Within each class, how many wines have higher levels of magnesium than average German beer?
+
+    The number of wines with higher levels of magnesium than average German beer within each class is as follows.
+
+    ```{r}
+    # within class 1
+    length(which(wine$class == 1 & wine$Magnesium > 114))
+    # within class 2
+    length(which(wine$class == 2 & wine$Magnesium > 114))
+    # within class 3
+    length(which(wine$class == 3 & wine$Magnesium > 114))
+    ```
+
+d\. Create a table identifying the average value of each variable
+
+We first calculate the overall mean value with respect to each variable.
+
+```{r}
+average_overall <- colMeans(wine[2:14])
+```
+
+Then we calculate the mean value of each class with respect to each variable.
+
+```{r}
+average_class1 <- colMeans(wine[1:59, 2:14])
+average_class2 <- colMeans(wine[60:130, 2:14])
+average_class3 <- colMeans(wine[131:178 , 2:14])
+```
+
+And finally, we combine these mean values together to form a table.
+
+```{r}
+average_table <- cbind.data.frame(average_overall, average_class1, average_class2, average_class3)
+average_table <- t(average_table)
+```
