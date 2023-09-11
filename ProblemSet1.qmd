@@ -2,6 +2,7 @@
 title: "ProblemSet1"
 format: html
 editor: visual
+author: Yangning Tan
 ---
 
 ## Problem 1 - Wine Data
@@ -119,14 +120,14 @@ e\. Carry out the t-tests
 
 ## Problem 2 - Perfect Power
 
-a\. Write a function \"isPerfectPower\" to identify whether a given integer is a perfect power for a given power. 
+a\. Write a function "isPerfectPower" to identify whether a given integer is a perfect power for a given power.
 
 ```{r}
 isPerfectPower <- function(x, p){
   # input: the number to check, the specified power
-  isPerfect <- x^(1/p) %% 1 == 0
   root <- round(x^(1/p))
-  if (isPerfect){
+  root_power <- root^p
+  if (all.equal(x, root_power) == TRUE){
     return(list(TRUE, root)) 
   } else{
     return (list(FALSE, root))
@@ -134,18 +135,278 @@ isPerfectPower <- function(x, p){
 }
 ```
 
-b\. Write another function \"`findRootPower`\" which calls your first function, using a loop to identify both the root and power.
+b\. Write another function "`findRootPower`" which calls your first function, using a loop to identify both the root and power.
 
 ```{r}
-findRootPower <- function(x){
-  #input: the number to check
-  for (i in 2:floor(log(x,2))){
-    if (isPerfectPower(x, i)[[1]] == TRUE){
+findRootPower <- function(x) {
+  power <- c()
+  for (p in 2:(log2(x))) {
+    result <- isPerfectPower(x, p)
+    if (result[[1]]) {
+      power <- c(power, p)
       break
-      return(x^(1/i))
     }
+  }
+  if (length(power) == 0) {
+    return(paste(x, "is not a Perfect Power."))
+  } else {
+    return(paste(x, "=", result[2], "^", p))
+  }
+}
+```
+
+Use this new function to identify whether each of the following is a perfect power, and if so what its root and power is.
+
+```{r}
+findRootPower(27)
+findRootPower(13060694016)
+findRootPower(7776)
+findRootPower(170859375)
+findRootPower(58247422)
+findRootPower(94143178827)
+```
+
+## Problem 3 - ChatGPT
+
+a\. Put the following prompt into ChatGPT (or your favorite other LLM) and copy its output (both the code it produces as well as any text it generates) into your submission.
+
+The following is the output of ChatGPT.
+
+Sure, here are two R functions that accomplish what you described:
+
+```{r}
+# Function to determine the name of a poker hand
+get_poker_hand_name <- function(suits, ranks) {
+  if (length(unique(ranks)) == 5) {
+    # Check for a straight
+    if (max(ranks) - min(ranks) == 4) {
+      if (length(unique(suits)) == 1) {
+        return("Straight Flush")
+      } else {
+        return("Straight")
+      }
+    }
+    # Check for a flush
+    if (length(unique(suits)) == 1) {
+      return("Flush")
+    }
+    return("High Card")
+  }
+  if (length(unique(ranks)) == 4) {
+    return("One Pair")
+  }
+  if (length(unique(ranks)) == 3) {
+    if (max(table(ranks)) == 3) {
+      return("Three of a Kind")
+    }
+    return("Two Pair")
+  }
+  if (length(unique(ranks)) == 2) {
+    if (max(table(ranks)) == 4) {
+      return("Four of a Kind")
+    }
+    return("Full House")
   }
 }
 
-findRootPower(125)
+# Function to simulate dealing a round of poker
+deal_poker_round <- function(num_players) {
+  # Define the deck of cards
+  suits <- c("Hearts", "Diamonds", "Clubs", "Spades")
+  ranks <- c(2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace")
+  
+  # Create an empty list to store each player's hand
+  hands <- vector("list", length = num_players)
+  
+  # Shuffle the deck of cards
+  deck <- expand.grid(Suit = suits, Rank = ranks)
+  deck <- deck[sample(nrow(deck)), ]
+  
+  # Deal cards to each player
+  for (i in 1:num_players) {
+    player_hand <- deck[((i - 1) * 5 + 1):(i * 5), ]
+    hands[[i]] <- player_hand
+    cat("Player", i, "hand:", player_hand$Rank, "of", player_hand$Suit, "\n")
+    hand_name <- get_poker_hand_name(player_hand$Suit, player_hand$Rank)
+    cat("Player", i, "has a", hand_name, "\n\n")
+  }
+  
+  return(hands)
+}
 ```
+
+This code defines two functions. The first function, **`get_poker_hand_name`**, takes vectors of suits and ranks and determines the name of the poker hand (e.g., "Two Pair," "Flush," etc.). The second function, **`deal_poker_round`**, simulates dealing a round of poker for a specified number of players, showing each player's hand and the name of their hand using the first function.
+
+b\. See if the code runs without modification in R. If so, demonstrate it with a range of inputs. If not, fix it and explain what you fixed.
+
+The code does not run without modification in R. Now we try to fix it.
+
+There are mainly two problems within this code. The first problem is that it fails to assign values to "J, Q, K, A". The second problem is that it ignores the fact that "A" can be viewed as "1" when there is potentially a straight. Thus, we improve the code of the first function as follows.
+
+```{r}
+get_poker_hand_name <- function(suits, ranks) {
+  # Define a mapping of ranks to numeric values
+  rank_mapping <- c("2" = 2, "3" = 3, "4" = 4, "5" = 5, "6" = 6,
+                    "7" = 7, "8" = 8, "9" = 9, "10" = 10,
+                    "Jack" = 11, "Queen" = 12, "King" = 13, "Ace" = 14)
+  
+  # Convert ranks to corresponding numeric values
+  numeric_ranks <- rank_mapping[as.character(ranks)]
+  
+  # Check for Ace, 2, 3, 4, 5 straight
+  is_straight_ace_low <- all(sort(numeric_ranks) == c(2, 3, 4, 5, 14))
+  
+  # Special case: Ace, 2, 3, 4, 5 straight with Ace as 1
+  if (is_straight_ace_low) {
+    numeric_ranks[numeric_ranks == 14] <- 1
+  }
+  
+  # Sort numeric ranks
+  sorted_ranks <- sort(numeric_ranks)
+  
+  if (length(unique(sorted_ranks)) == 5) {
+    # Check for a straight
+    if (max(sorted_ranks) - min(sorted_ranks) == 4) {
+      if (length(unique(suits)) == 1) {
+        return("Straight Flush")
+      } else {
+        return("Straight")
+      }
+    }
+    # Check for a flush
+    if (length(unique(suits)) == 1) {
+      return("Flush")
+    }
+    return("High Card")
+  }
+  if (length(unique(sorted_ranks)) == 4) {
+    return("One Pair")
+  }
+  if (length(unique(sorted_ranks)) == 3) {
+    if (max(table(sorted_ranks)) == 3) {
+      return("Three of a Kind")
+    }
+    return("Two Pair")
+  }
+  if (length(unique(sorted_ranks)) == 2) {
+    if (max(table(sorted_ranks)) == 4) {
+      return("Four of a Kind")
+    }
+    return("Full House")
+  }
+}
+```
+
+c\. Explain line-by-line what the code is doing.
+
+```{r}
+get_poker_hand_name <- function(suits, ranks) {
+  # Define a mapping of ranks to numeric values
+  rank_mapping <- c("2" = 2, "3" = 3, "4" = 4, "5" = 5, "6" = 6,
+                    "7" = 7, "8" = 8, "9" = 9, "10" = 10,
+                    "Jack" = 11, "Queen" = 12, "King" = 13, "Ace" = 14)
+  
+  # Convert ranks to corresponding numeric values
+  numeric_ranks <- rank_mapping[as.character(ranks)]
+  
+  # Check for Ace, 2, 3, 4, 5 straight
+  is_straight_ace_low <- all(sort(numeric_ranks) == c(2, 3, 4, 5, 14))
+  
+  # Special case: Ace, 2, 3, 4, 5 straight with Ace as 1
+  if (is_straight_ace_low) {
+    numeric_ranks[numeric_ranks == 14] <- 1
+  }
+  
+  # Sort numeric ranks
+  sorted_ranks <- sort(numeric_ranks)
+  
+  if (length(unique(sorted_ranks)) == 5) {
+    # Check for a straight
+    if (max(sorted_ranks) - min(sorted_ranks) == 4) {
+      if (length(unique(suits)) == 1) {
+        return("Straight Flush")
+      } else {
+        return("Straight")
+      }
+    }
+    # Check for a flush
+    if (length(unique(suits)) == 1) {
+      return("Flush")
+    }
+    return("High Card")
+  }
+  if (length(unique(sorted_ranks)) == 4) {
+    return("One Pair")
+  }
+  if (length(unique(sorted_ranks)) == 3) {
+    if (max(table(sorted_ranks)) == 3) {
+      return("Three of a Kind")
+    }
+    return("Two Pair")
+  }
+  if (length(unique(sorted_ranks)) == 2) {
+    if (max(table(sorted_ranks)) == 4) {
+      return("Four of a Kind")
+    }
+    return("Full House")
+  }
+}
+
+# Function to simulate dealing a round of poker
+deal_poker_round <- function(num_players) {
+  # Define the deck of cards
+  suits <- c("Hearts", "Diamonds", "Clubs", "Spades")
+  ranks <- c(2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King", "Ace")
+  
+  # Create an empty list to store each player's hand
+  hands <- vector("list", length = num_players)
+  
+  # Shuffle the deck of cards
+  # Create a dataframe from all combinations of the suits and the ranks to yield a matrix representing the 52 different cards.
+  deck <- expand.grid(Suit = suits, Rank = ranks) 
+  # randomly put the 52 cards into the matrix
+  deck <- deck[sample(nrow(deck)), ]
+  
+  # Deal cards to each player
+  for (i in 1:num_players) {
+    player_hand <- deck[((i - 1) * 5 + 1):(i * 5), ]
+    hands[[i]] <- player_hand
+    cat("Player", i, "hand:", player_hand$Rank, "of", player_hand$Suit, "\n")
+    hand_name <- get_poker_hand_name(player_hand$Suit, player_hand$Rank)
+    cat("Player", i, "has a", hand_name, "\n\n")
+  }
+  
+  return(hands)
+}
+```
+
+d\. Determine whether the code produces accurate results. Explain how you made this determination. Check at least the following.
+
+-   Are the inputs and outputs as described above?
+
+    Yes.
+
+-   Are the hands valid (e.g. real cards, no duplicates, right number)?
+
+    Yes.
+
+-   Are the names of the hands correct?
+
+    Yes.
+
+-   Does it ensure no duplicates in cards across hands? What happens if you ask for more than 10 hands to be dealt (as there are only 52 cards in a standard deck)?
+
+    ```{r}
+    deal_poker_round(11)
+    ```
+
+    Only the first ten players can receive a complete hand of 5 cards. Other players can only receive two cards or even nothing.
+
+Include all tests you carry out. (Set a random seed to make the results deterministic for the discussion.)
+
+```{r}
+set.seed(123)
+deal_poker_round(4)
+```
+
+All results seem to be accurate.
