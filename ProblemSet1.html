@@ -205,6 +205,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>average_table <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(average_overall, average_class1, average_class2, average_class3)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>average_table <span class="ot">&lt;-</span> <span class="fu">t</span>(average_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>e. Carry out the t-tests</p>
+</section>
+<section id="problem-2---perfect-power" class="level2">
+<h2 class="anchored" data-anchor-id="problem-2---perfect-power">Problem 2 - Perfect Power</h2>
+<p>a. Write a function "isPerfectPower" to identify whether a given integer is a perfect power for a given power.&nbsp;</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>isPerfectPower <span class="ot">&lt;-</span> <span class="cf">function</span>(x, p){</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># input: the number to check, the specified power</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  isPerfect <span class="ot">&lt;-</span> x<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>p) <span class="sc">%%</span> <span class="dv">1</span> <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  root <span class="ot">&lt;-</span> <span class="fu">round</span>(x<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>p))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (isPerfect){</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="cn">TRUE</span>, root)) </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (<span class="fu">list</span>(<span class="cn">FALSE</span>, root))</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>b. Write another function "<code>findRootPower</code>" which calls your first function, using a loop to identify both the root and power.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>findRootPower <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#input: the number to check</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">floor</span>(<span class="fu">log</span>(x,<span class="dv">2</span>))){</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">isPerfectPower</span>(x, i)[[<span class="dv">1</span>]] <span class="sc">==</span> <span class="cn">TRUE</span>){</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(x<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>i))</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="fu">findRootPower</span>(<span class="dv">125</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 
 </main>

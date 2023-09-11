@@ -114,3 +114,38 @@ And finally, we combine these mean values together to form a table.
 average_table <- cbind.data.frame(average_overall, average_class1, average_class2, average_class3)
 average_table <- t(average_table)
 ```
+
+e\. Carry out the t-tests
+
+## Problem 2 - Perfect Power
+
+a\. Write a function \"isPerfectPower\" to identify whether a given integer is a perfect power for a given power. 
+
+```{r}
+isPerfectPower <- function(x, p){
+  # input: the number to check, the specified power
+  isPerfect <- x^(1/p) %% 1 == 0
+  root <- round(x^(1/p))
+  if (isPerfect){
+    return(list(TRUE, root)) 
+  } else{
+    return (list(FALSE, root))
+  }
+}
+```
+
+b\. Write another function \"`findRootPower`\" which calls your first function, using a loop to identify both the root and power.
+
+```{r}
+findRootPower <- function(x){
+  #input: the number to check
+  for (i in 2:floor(log(x,2))){
+    if (isPerfectPower(x, i)[[1]] == TRUE){
+      break
+      return(x^(1/i))
+    }
+  }
+}
+
+findRootPower(125)
+```
