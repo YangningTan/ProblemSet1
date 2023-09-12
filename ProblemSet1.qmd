@@ -118,6 +118,27 @@ average_table <- t(average_table)
 
 e\. Carry out the t-tests
 
+We first take out the values of ash with regard to the three classes.
+
+```{r}
+ash_1 <- wine$ash[1:59]
+ash_2 <- wine$ash[60:130]
+ash_3 <- wine$ash[131:178]
+```
+
+Then we conduct pairwise t-tests to the three sets of data.
+
+```{r}
+# t-test for class 1 and class 2
+t.test(ash_1, ash_2, var.equal = FALSE)
+# t-test for class 1 and class 3
+t.test(ash_1, ash_3, var.equal = FALSE)
+# t-test for class 2 and class 3
+t.test(ash_2, ash_3, var.equal = FALSE)
+```
+
+This shows that the level of ash differs between class 1 and class 3.
+
 ## Problem 2 - Perfect Power
 
 a\. Write a function "isPerfectPower" to identify whether a given integer is a perfect power for a given power.
