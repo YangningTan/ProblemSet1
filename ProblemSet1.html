@@ -3045,6 +3045,7 @@ vertical-align: -.125em;
 
 </header>
 
+<p>link: https://github.com/YangningTan/ProblemSet1.git</p>
 <section id="problem-1---wine-data" class="level2">
 <h2 class="anchored" data-anchor-id="problem-1---wine-data">Problem 1 - Wine Data</h2>
 <p>a. Import the data</p>
@@ -3489,37 +3490,37 @@ mean of x mean of y
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">deal_poker_round</span>(<span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Player 1 hand: 5 3 8 11 9 of 3 1 4 4 3 
+<pre><code>Player 1 hand: 2 12 8 11 10 of 1 1 4 3 1 
 Player 1 has a High Card 
 
-Player 2 hand: 1 2 5 9 1 of 2 3 1 1 4 
-Player 2 has a One Pair 
+Player 2 hand: 10 4 5 13 6 of 2 2 4 1 2 
+Player 2 has a High Card 
 
-Player 3 hand: 2 3 6 5 12 of 4 3 1 2 3 
-Player 3 has a High Card 
+Player 3 hand: 9 7 9 9 13 of 3 1 1 4 4 
+Player 3 has a Three of a Kind 
 
-Player 4 hand: 13 6 4 10 11 of 4 2 2 4 2 
-Player 4 has a High Card 
+Player 4 hand: 1 2 8 2 10 of 1 3 3 2 4 
+Player 4 has a One Pair 
 
-Player 5 hand: 12 12 3 8 11 of 4 1 4 3 1 
+Player 5 hand: 2 3 5 11 11 of 4 4 2 1 4 
 Player 5 has a One Pair 
 
-Player 6 hand: 7 10 8 9 13 of 1 1 1 2 2 
-Player 6 has a High Card 
+Player 6 hand: 13 1 7 7 3 of 2 3 4 2 3 
+Player 6 has a One Pair 
 
-Player 7 hand: 2 13 10 8 7 of 1 3 2 2 3 
+Player 7 hand: 9 6 13 4 3 of 2 3 3 1 1 
 Player 7 has a High Card 
 
-Player 8 hand: 6 7 7 5 1 of 3 2 4 4 3 
-Player 8 has a One Pair 
+Player 8 hand: 10 6 1 3 8 of 3 1 4 2 1 
+Player 8 has a High Card 
 
-Player 9 hand: 11 9 13 4 12 of 3 4 1 3 2 
-Player 9 has a High Card 
+Player 9 hand: 4 5 11 1 5 of 3 1 2 2 3 
+Player 9 has a One Pair 
 
-Player 10 hand: 1 10 6 4 2 of 1 3 4 4 2 
-Player 10 has a High Card 
+Player 10 hand: 12 4 12 6 12 of 3 4 4 4 2 
+Player 10 has a Three of a Kind 
 
-Player 11 hand: 3 4 NA NA NA of 2 1 NA NA NA </code></pre>
+Player 11 hand: 7 8 NA NA NA of 3 2 NA NA NA </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in sort(numeric_ranks) == c(2, 3, 4, 5, 14): longer object length is
@@ -3531,88 +3532,88 @@ not a multiple of shorter object length</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
      Suit  Rank
-19  Clubs     6
-9  Hearts     4
+5  Hearts     3
+45 Hearts  King
 32 Spades     9
-44 Spades Queen
-35  Clubs    10
+43  Clubs Queen
+37 Hearts  Jack
 
 [[2]]
        Suit Rank
-2  Diamonds    2
-7     Clubs    3
-17   Hearts    6
-33   Hearts   10
-4    Spades    2
+38 Diamonds Jack
+14 Diamonds    5
+20   Spades    6
+49   Hearts  Ace
+22 Diamonds    7
 
 [[3]]
-       Suit Rank
-8    Spades    3
-11    Clubs    4
-21   Hearts    7
-18 Diamonds    6
-47    Clubs King
+     Suit Rank
+35  Clubs   10
+25 Hearts    8
+33 Hearts   10
+36 Spades   10
+52 Spades  Ace
 
 [[4]]
-       Suit  Rank
-52   Spades   Ace
-22 Diamonds     7
-14 Diamonds     5
-40   Spades  Jack
-42 Diamonds Queen
+       Suit Rank
+1    Hearts    2
+7     Clubs    3
+31    Clubs    9
+6  Diamonds    3
+40   Spades Jack
 
 [[5]]
-     Suit  Rank
-48 Spades  King
-45 Hearts  King
-12 Spades     4
-31  Clubs     9
-41 Hearts Queen
+       Suit  Rank
+8    Spades     3
+12   Spades     4
+18 Diamonds     6
+41   Hearts Queen
+44   Spades Queen
 
 [[6]]
        Suit Rank
-25   Hearts    8
-37   Hearts Jack
-29   Hearts    9
-34 Diamonds   10
 50 Diamonds  Ace
+3     Clubs    2
+28   Spades    8
+26 Diamonds    8
+11    Clubs    4
 
 [[7]]
        Suit Rank
-5    Hearts    3
+34 Diamonds   10
+23    Clubs    7
 51    Clubs  Ace
-38 Diamonds Jack
-30 Diamonds    9
-27    Clubs    8
+13   Hearts    5
+9    Hearts    4
 
 [[8]]
        Suit Rank
-23    Clubs    7
-26 Diamonds    8
-28   Spades    8
-20   Spades    6
-3     Clubs    2
+39    Clubs Jack
+21   Hearts    7
+4    Spades    2
+10 Diamonds    4
+29   Hearts    9
 
 [[9]]
        Suit  Rank
-43    Clubs Queen
-36   Spades    10
-49   Hearts   Ace
 15    Clubs     5
-46 Diamonds  King
+17   Hearts     6
+42 Diamonds Queen
+2  Diamonds     2
+19    Clubs     6
 
 [[10]]
        Suit Rank
-1    Hearts    2
-39    Clubs Jack
-24   Spades    7
+47    Clubs King
 16   Spades    5
-6  Diamonds    3
+48   Spades King
+24   Spades    7
+46 Diamonds King
 
 [[11]]
          Suit Rank
-10   Diamonds    4
-13     Hearts    5
+27      Clubs    8
+30   Diamonds    9
 NA       &lt;NA&gt; &lt;NA&gt;
 NA.1     &lt;NA&gt; &lt;NA&gt;
 NA.2     &lt;NA&gt; &lt;NA&gt;</code></pre>
