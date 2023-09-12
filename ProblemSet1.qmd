@@ -1,6 +1,7 @@
 ---
 title: "ProblemSet1"
 format: html
+embed-resources: true
 editor: visual
 author: Yangning Tan
 ---
